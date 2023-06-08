@@ -2,6 +2,8 @@
 
 #include "allocator.h"
 
+#include <cassert>
+
 #ifndef __KITS_VECTOR_H__
 #define __KITS_VECTOR_H__
 
@@ -19,7 +21,16 @@ namespace kits {
 		constexpr vector(vector&&) = default;
 		constexpr vector& operator=(const vector&) = default;
 		constexpr vector& operator=(vector&&) = default;
-		~vector() { if (buf_) { allocator_.deallocate(buf_); } }
+		~vector() { 
+			if (!buf_)
+				return;
+			for (size_type i = 0; i < size_; ++i) {
+				allocator_.destroy(&buf_[i]);
+			}
+
+			allocator_.deallocate(buf_);
+			 
+		}
 
 		void push_back(const T& val) {
 			size_type old_size = size_;
@@ -54,10 +65,13 @@ namespace kits {
 			}
 		}
 
-		
+		void pop_back() {
+			assert(size_ && "Can not pop_back from empty array");
+
+			allocator_.destroy(&buf_[size_--]);
+		}
 
 	private:
-		
 
 		Alloc allocator_;
 		T* buf_{};
