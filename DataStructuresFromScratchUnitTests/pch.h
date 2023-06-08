@@ -9,4 +9,5 @@
 
 // add headers that you want to pre-compile here
 #include "../DataStructuresFromScratch/allocator.h"
+#include "../DataStructuresFromScratch/vector.h"
 #endif //PCH_H

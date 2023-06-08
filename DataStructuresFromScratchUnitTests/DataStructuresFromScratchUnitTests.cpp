@@ -36,8 +36,15 @@ namespace DataStructuresFromScratchUnitTests
 	{
 	public:
 
-		TEST_METHOD(TestMethod1)
+		TEST_METHOD(create_empty_vector_int)
 		{
+			kits::vector<int> _v;
+		}
+
+		TEST_METHOD(create_empty_vector_and_add_one_int)
+		{
+			kits::vector<int> v;
+			v.push_back(5);
 		}
 	};
 }
